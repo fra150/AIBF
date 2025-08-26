@@ -1,0 +1,271 @@
+# AI Bull Ford Framework - Default Configuration
+# This file contains the default configuration for the AIBF framework
+
+framework:
+  name: "AI Bull Ford"
+  version: "1.0.0"
+  mode: "development"  # development, production, testing
+  description: "Comprehensive Modular AI Framework"
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/aibf.log"
+  max_file_size: "10MB"
+  backup_count: 5
+  console_output: true
+
+# API server configurations
+api:
+  # REST API configuration
+  rest:
+    enabled: true
+    host: "0.0.0.0"
+    port: 8080
+    workers: 4
+    timeout: 30
+    max_request_size: "10MB"
+    cors:
+      enabled: true
+      origins: ["*"]
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      headers: ["*"]
+    
+  # WebSocket configuration
+  websocket:
+    enabled: false
+    host: "0.0.0.0"
+    port: 8081
+    max_connections: 1000
+    ping_interval: 30
+    ping_timeout: 10
+    
+  # gRPC configuration
+  grpc:
+    enabled: false
+    host: "0.0.0.0"
+    port: 8082
+    max_workers: 10
+    max_message_length: 4194304  # 4MB
+    
+  # GraphQL configuration
+  graphql:
+    enabled: false
+    host: "0.0.0.0"
+    port: 8083
+    playground: true
+    introspection: true
+
+# Authentication and Authorization
+authentication:
+  enabled: true
+  method: "jwt"  # jwt, oauth2, api_key
+  secret_key: "your-secret-key-here-change-in-production"
+  algorithm: "HS256"
+  token_expiry: 3600  # seconds
+  refresh_token_expiry: 604800  # 7 days
+  
+authorization:
+  enabled: true
+  default_role: "user"
+  admin_role: "admin"
+  roles:
+    - name: "admin"
+      permissions: ["*"]
+    - name: "user"
+      permissions: ["read", "write_own"]
+    - name: "guest"
+      permissions: ["read"]
+
+# Monitoring and metrics
+monitoring:
+  metrics:
+    enabled: true
+    collection_interval: 60  # seconds
+    retention_period: 86400  # 24 hours
+    export_format: "prometheus"
+    
+  health_check:
+    enabled: true
+    check_interval: 30  # seconds
+    timeout: 5  # seconds
+    endpoints:
+      - "/health"
+      - "/ready"
+      - "/metrics"
+    
+  logging:
+    audit_enabled: true
+    performance_logging: true
+    error_tracking: true
+
+# Application modules configuration
+applications:
+  healthcare:
+    enabled: true
+    models:
+      medical_image_analyzer:
+        model_path: "models/healthcare/medical_image_analyzer.pt"
+        confidence_threshold: 0.85
+      drug_interaction_checker:
+        database_path: "data/healthcare/drug_interactions.db"
+    
+  financial:
+    enabled: true
+    models:
+      risk_manager:
+        model_path: "models/financial/risk_manager.pt"
+        risk_threshold: 0.7
+      fraud_detector:
+        model_path: "models/financial/fraud_detector.pt"
+        alert_threshold: 0.9
+    
+  educational:
+    enabled: true
+    models:
+      content_recommender:
+        model_path: "models/educational/content_recommender.pt"
+        similarity_threshold: 0.8
+      learning_path_optimizer:
+        algorithm: "genetic"
+        population_size: 100
+
+# Core module configurations
+core:
+  neural_networks:
+    default_activation: "relu"
+    default_optimizer: "adam"
+    default_loss: "mse"
+    batch_size: 32
+    learning_rate: 0.001
+    
+  transformers:
+    model_dim: 512
+    num_heads: 8
+    num_layers: 6
+    dropout: 0.1
+    max_sequence_length: 1024
+    
+  reinforcement_learning:
+    gamma: 0.99
+    epsilon: 0.1
+    learning_rate: 0.001
+    memory_size: 10000
+    batch_size: 64
+
+# Multimodal configurations
+multimodal:
+  vision:
+    image_size: [224, 224]
+    normalization:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    augmentation:
+      enabled: true
+      rotation: 15
+      brightness: 0.2
+      contrast: 0.2
+      
+  audio:
+    sample_rate: 16000
+    n_mels: 80
+    n_fft: 1024
+    hop_length: 256
+    
+  fusion:
+    method: "attention"  # concatenation, attention, cross_modal
+    attention_heads: 8
+    fusion_dim: 512
+
+# Security configurations
+security:
+  encryption:
+    enabled: true
+    algorithm: "AES-256-GCM"
+    key_rotation_interval: 86400  # 24 hours
+    
+  validation:
+    input_sanitization: true
+    sql_injection_protection: true
+    xss_protection: true
+    
+  audit:
+    enabled: true
+    log_all_requests: true
+    log_sensitive_data: false
+    retention_period: 2592000  # 30 days
+
+# Performance configurations
+performance:
+  caching:
+    enabled: true
+    backend: "redis"  # memory, redis, memcached
+    ttl: 3600  # seconds
+    max_size: "1GB"
+    
+  database:
+    connection_pool_size: 10
+    connection_timeout: 30
+    query_timeout: 60
+    
+  compute:
+    use_gpu: true
+    gpu_memory_fraction: 0.8
+    mixed_precision: true
+    
+# Development and testing
+development:
+  debug_mode: true
+  hot_reload: true
+  profiling: false
+  
+testing:
+  test_data_path: "tests/data"
+  mock_external_services: true
+  coverage_threshold: 80
+  
+# Data paths and storage
+data:
+  models_path: "models/"
+  datasets_path: "data/"
+  cache_path: "cache/"
+  logs_path: "logs/"
+  temp_path: "temp/"
+  
+# External services (optional)
+external_services:
+  database:
+    type: "postgresql"  # postgresql, mysql, sqlite, mongodb
+    host: "localhost"
+    port: 5432
+    name: "aibf_db"
+    username: "aibf_user"
+    password: "aibf_password"
+    
+  redis:
+    host: "localhost"
+    port: 6379
+    db: 0
+    password: null
+    
+  message_queue:
+    type: "rabbitmq"  # rabbitmq, kafka, redis
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+# Pipeline configurations
+pipelines:
+  default_timeout: 300  # seconds
+  max_concurrent_pipelines: 5
+  retry_attempts: 3
+  retry_delay: 5  # seconds
+  
+# Resource limits
+resource_limits:
+  max_memory_usage: "8GB"
+  max_cpu_usage: 80  # percentage
+  max_disk_usage: "50GB"
+  max_network_bandwidth: "1Gbps"

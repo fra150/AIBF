@@ -1,0 +1,262 @@
+# AIBF Benchmark Configuration
+# Performance testing configuration for all modules
+
+# Global benchmark settings
+global:
+  default_iterations: 10
+  warmup_iterations: 3
+  timeout_seconds: 300
+  memory_limit_mb: 8192
+  enable_gpu: true
+  enable_profiling: false
+  output_format: ["json", "csv", "html"]
+
+# Performance thresholds (for regression testing)
+thresholds:
+  core:
+    neural_network_forward:
+      max_time_ms: 50
+      min_throughput: 20
+      max_memory_mb: 100
+    transformer_attention:
+      max_time_ms: 200
+      min_throughput: 5
+      max_memory_mb: 500
+    rl_action_selection:
+      max_time_ms: 10
+      min_throughput: 100
+      max_memory_mb: 50
+  
+  vision:
+    image_encoding:
+      max_time_ms: 100
+      min_throughput: 10
+      max_memory_mb: 200
+    batch_processing:
+      max_time_ms: 500
+      min_throughput: 2
+      max_memory_mb: 1000
+  
+  healthcare:
+    medical_image_analysis:
+      max_time_ms: 300
+      min_throughput: 3
+      max_memory_mb: 300
+    patient_data_processing:
+      max_time_ms: 50
+      min_throughput: 20
+      max_memory_mb: 100
+  
+  financial:
+    risk_analysis:
+      max_time_ms: 200
+      min_throughput: 5
+      max_memory_mb: 150
+    portfolio_optimization:
+      max_time_ms: 1000
+      min_throughput: 1
+      max_memory_mb: 500
+  
+  educational:
+    learner_profiling:
+      max_time_ms: 100
+      min_throughput: 10
+      max_memory_mb: 100
+    content_recommendation:
+      max_time_ms: 150
+      min_throughput: 7
+      max_memory_mb: 200
+  
+  multimodal:
+    modality_fusion:
+      max_time_ms: 100
+      min_throughput: 10
+      max_memory_mb: 300
+    cross_modal_attention:
+      max_time_ms: 80
+      min_throughput: 12
+      max_memory_mb: 250
+  
+  pipeline:
+    sequential_processing:
+      max_time_ms: 20
+      min_throughput: 50
+      max_memory_mb: 50
+    parallel_processing:
+      max_time_ms: 15
+      min_throughput: 65
+      max_memory_mb: 100
+
+# Test data configurations
+test_data:
+  batch_sizes: [1, 4, 8, 16, 32]
+  image_sizes: [[224, 224], [512, 512], [1024, 1024]]
+  sequence_lengths: [50, 100, 200, 500]
+  feature_dimensions: [128, 256, 512, 768, 1024]
+  
+  # Synthetic data generation
+  synthetic:
+    enable: true
+    seed: 42
+    cache_data: true
+    cache_dir: "benchmark_cache"
+
+# Hardware-specific configurations
+hardware_profiles:
+  cpu_only:
+    enable_gpu: false
+    max_threads: 4
+    memory_limit_mb: 4096
+  
+  gpu_enabled:
+    enable_gpu: true
+    gpu_memory_fraction: 0.8
+    mixed_precision: true
+    max_threads: 8
+    memory_limit_mb: 8192
+  
+  high_performance:
+    enable_gpu: true
+    gpu_memory_fraction: 0.9
+    mixed_precision: true
+    max_threads: 16
+    memory_limit_mb: 16384
+    enable_tensorrt: true
+
+# Reporting configuration
+reporting:
+  generate_plots: true
+  plot_formats: ["png", "pdf"]
+  include_system_info: true
+  compare_with_baseline: true
+  baseline_file: "baseline_results.json"
+  
+  # Performance regression detection
+  regression_detection:
+    enable: true
+    threshold_percent: 10  # Alert if performance degrades by more than 10%
+    consecutive_failures: 3  # Alert after 3 consecutive regressions
+  
+  # Export formats
+  exports:
+    json:
+      enable: true
+      pretty_print: true
+    csv:
+      enable: true
+      include_metadata: true
+    html:
+      enable: true
+      include_plots: true
+      template: "benchmark_report_template.html"
+
+# CI/CD integration
+ci_cd:
+  enable: true
+  fail_on_regression: true
+  upload_artifacts: true
+  artifact_retention_days: 30
+  
+  # GitHub Actions specific
+  github_actions:
+    post_comment: true
+    update_pr_status: true
+    artifact_name: "benchmark-results"
+  
+  # Performance tracking
+  tracking:
+    enable: true
+    database_url: "sqlite:///benchmark_history.db"
+    retention_days: 90
+
+# Stress testing configuration
+stress_testing:
+  enable: false
+  duration_minutes: 30
+  concurrent_workers: 4
+  memory_pressure: true
+  cpu_pressure: true
+  
+  # Load patterns
+  load_patterns:
+    constant:
+      requests_per_second: 10
+    ramp_up:
+      start_rps: 1
+      end_rps: 50
+      duration_minutes: 10
+    spike:
+      base_rps: 5
+      spike_rps: 100
+      spike_duration_seconds: 30
+      spike_interval_minutes: 5
+
+# Profiling configuration
+profiling:
+  enable: false
+  profiler_type: "cProfile"  # Options: cProfile, py-spy, line_profiler
+  output_format: "flamegraph"
+  
+  # Memory profiling
+  memory_profiling:
+    enable: false
+    profiler: "memory_profiler"  # Options: memory_profiler, tracemalloc
+    precision: 3
+  
+  # GPU profiling
+  gpu_profiling:
+    enable: false
+    profiler: "nvprof"  # Options: nvprof, nsight
+    trace_apis: true
+    trace_memory: true
+
+# Custom benchmark definitions
+custom_benchmarks:
+  end_to_end_workflow:
+    description: "Complete healthcare workflow benchmark"
+    modules: ["vision", "healthcare", "pipeline"]
+    iterations: 5
+    timeout_seconds: 600
+    
+  multimodal_integration:
+    description: "Cross-modal processing benchmark"
+    modules: ["vision", "multimodal"]
+    iterations: 8
+    custom_data:
+      modalities: ["text", "image", "audio"]
+      fusion_methods: ["early", "late", "attention"]
+  
+  scalability_test:
+    description: "System scalability under load"
+    modules: ["core", "pipeline"]
+    iterations: 20
+    batch_sizes: [1, 10, 50, 100]
+    concurrent_requests: [1, 5, 10, 20]
+
+# Environment-specific overrides
+environments:
+  development:
+    global:
+      default_iterations: 3
+      enable_profiling: true
+    thresholds:
+      # Relaxed thresholds for development
+      core:
+        neural_network_forward:
+          max_time_ms: 100
+  
+  staging:
+    global:
+      default_iterations: 5
+    # Use default thresholds
+  
+  production:
+    global:
+      default_iterations: 10
+      enable_profiling: false
+    thresholds:
+      # Strict thresholds for production
+      core:
+        neural_network_forward:
+          max_time_ms: 30
+          min_throughput: 30

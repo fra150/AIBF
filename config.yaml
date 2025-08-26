@@ -1,0 +1,770 @@
+# AI Bull Ford (AIBF) Configuration
+# Main configuration file for the AI Bull Ford framework
+
+# Global Framework Settings
+aibf:
+  # Environment configuration
+  environment: "development"  # development, staging, production
+  debug: true
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  
+  # Data and Model Paths
+  paths:
+    data: "./data"
+    models: "./models"
+    logs: "./logs"
+    cache: "./cache"
+    temp: "./temp"
+    checkpoints: "./checkpoints"
+    exports: "./exports"
+
+# Core AI Module Configuration
+core:
+  # Neural Networks Configuration
+  neural_networks:
+    default_device: "auto"  # auto, cpu, cuda, mps
+    mixed_precision: true
+    gradient_checkpointing: true
+    compile_models: true
+    memory_efficient: true
+    
+    # Default model parameters
+    defaults:
+      batch_size: 32
+      learning_rate: 0.001
+      epochs: 100
+      early_stopping_patience: 10
+      gradient_clip_norm: 1.0
+  
+  # Transformer Configuration
+  transformers:
+    model_name: "gpt-3.5-turbo"
+    max_length: 4096
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 50
+    repetition_penalty: 1.1
+    
+    # Attention mechanisms
+    attention:
+      num_heads: 12
+      head_dim: 64
+      dropout: 0.1
+      flash_attention: true
+  
+  # Reinforcement Learning Configuration
+  reinforcement:
+    algorithm: "PPO"  # PPO, A2C, SAC, TD3, DQN
+    environment: "gym"
+    
+    # Training parameters
+    training:
+      total_timesteps: 1000000
+      learning_rate: 0.0003
+      batch_size: 64
+      buffer_size: 100000
+      gamma: 0.99
+      tau: 0.005
+
+# Enhancement Modules Configuration
+enhancement:
+  # RAG (Retrieval-Augmented Generation)
+  rag:
+    enabled: true
+    embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+    vector_store: "faiss"  # faiss, chroma, pinecone, weaviate
+    chunk_size: 512
+    chunk_overlap: 50
+    top_k: 5
+    similarity_threshold: 0.7
+    
+    # Vector database configuration
+    vector_db:
+      index_type: "IVF"  # Flat, IVF, HNSW
+      metric: "cosine"  # cosine, euclidean, dot_product
+      nlist: 100
+      nprobe: 10
+  
+  # Fine-tuning Configuration
+  fine_tuning:
+    enabled: true
+    method: "lora"  # full, lora, qlora, adapter
+    
+    # LoRA parameters
+    lora:
+      rank: 16
+      alpha: 32
+      dropout: 0.1
+      target_modules: ["q_proj", "v_proj", "k_proj", "o_proj"]
+    
+    # Training parameters
+    training:
+      learning_rate: 0.0001
+      batch_size: 8
+      gradient_accumulation_steps: 4
+      warmup_steps: 100
+      max_steps: 1000
+      save_steps: 100
+      eval_steps: 50
+  
+  # Memory Management
+  memory:
+    enabled: true
+    max_context_length: 4096
+    compression_ratio: 0.8
+    memory_type: "episodic"  # episodic, semantic, working
+    
+    # Memory strategies
+    strategies:
+      summarization: true
+      importance_weighting: true
+      temporal_decay: true
+      clustering: true
+
+# Multi-Agent Systems Configuration
+agents:
+  # Planning Configuration
+  planning:
+    enabled: true
+    algorithm: "a_star"  # a_star, dijkstra, rrt, mcts
+    max_depth: 10
+    beam_width: 5
+    timeout: 30  # seconds
+    
+    # Heuristics
+    heuristics:
+      cost_weight: 1.0
+      time_weight: 0.5
+      resource_weight: 0.3
+  
+  # Multi-Agent Coordination
+  multi_agent:
+    enabled: true
+    communication_protocol: "message_passing"  # message_passing, shared_memory, blackboard
+    coordination_strategy: "consensus"  # consensus, auction, voting, hierarchical
+    max_agents: 10
+    
+    # Communication settings
+    communication:
+      message_queue_size: 1000
+      timeout: 5  # seconds
+      retry_attempts: 3
+      compression: true
+  
+  # Autonomy Configuration
+  autonomy:
+    enabled: true
+    decision_threshold: 0.8
+    learning_rate: 0.01
+    exploration_rate: 0.1
+    
+    # Autonomous behaviors
+    behaviors:
+      self_monitoring: true
+      adaptive_learning: true
+      goal_revision: true
+      resource_management: true
+
+# Multimodal AI Configuration
+multimodal:
+  # Text Processing
+  text:
+    enabled: true
+    tokenizer: "tiktoken"
+    max_tokens: 4096
+    
+    # NLP models
+    models:
+      sentiment: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+      ner: "dbmdz/bert-large-cased-finetuned-conll03-english"
+      summarization: "facebook/bart-large-cnn"
+      translation: "Helsinki-NLP/opus-mt-en-de"
+  
+  # Vision Processing
+  vision:
+    enabled: true
+    input_size: [224, 224]
+    color_channels: 3
+    
+    # Vision models
+    models:
+      classification: "resnet50"
+      detection: "yolov8n"
+      segmentation: "deeplabv3_resnet50"
+      ocr: "easyocr"
+  
+  # Audio Processing
+  audio:
+    enabled: true
+    sample_rate: 16000
+    channels: 1
+    
+    # Audio models
+    models:
+      speech_recognition: "openai/whisper-base"
+      speaker_identification: "speechbrain/spkrec-ecapa-voxceleb"
+      emotion_recognition: "audeering/wav2vec2-large-robust-12-ft-emotion-msp-dim"
+  
+  # Video Processing
+  video:
+    enabled: true
+    fps: 30
+    resolution: [1920, 1080]
+    
+    # Video models
+    models:
+      action_recognition: "facebook/timesformer-base-finetuned-k400"
+      object_tracking: "bytetrack"
+      scene_understanding: "clip-vit-base-patch32"
+
+# Applications Configuration
+applications:
+  # Chatbot Configuration
+  chatbot:
+    enabled: true
+    personality: "helpful"  # helpful, creative, analytical, casual
+    response_length: "medium"  # short, medium, long
+    context_window: 10  # number of previous messages
+    
+    # Features
+    features:
+      memory: true
+      web_search: false
+      file_upload: true
+      voice_input: false
+  
+  # Recommendation System
+  recommendation:
+    enabled: true
+    algorithm: "collaborative_filtering"  # collaborative_filtering, content_based, hybrid
+    top_k: 10
+    
+    # Collaborative filtering
+    collaborative_filtering:
+      similarity_metric: "cosine"  # cosine, pearson, jaccard
+      min_interactions: 5
+      regularization: 0.01
+  
+  # Analytics Configuration
+  analytics:
+    enabled: true
+    real_time: true
+    batch_processing: true
+    
+    # Metrics
+    metrics:
+      user_engagement: true
+      model_performance: true
+      system_health: true
+      business_kpis: true
+
+# Emerging Technologies Configuration
+emerging:
+  # Quantum Computing
+  quantum:
+    enabled: false
+    backend: "qiskit"  # qiskit, cirq, pennylane
+    simulator: "aer_simulator"
+    
+    # Quantum algorithms
+    algorithms:
+      vqe: true
+      qaoa: true
+      qml: true
+  
+  # Neuromorphic Computing
+  neuromorphic:
+    enabled: false
+    platform: "loihi"  # loihi, spinnaker, truenorth
+    
+    # Spiking neural networks
+    snn:
+      neuron_model: "lif"  # lif, izhikevich, hodgkin_huxley
+      encoding: "rate"  # rate, temporal, population
+  
+  # Bio-inspired Algorithms
+  bio_inspired:
+    enabled: true
+    
+    # Genetic algorithms
+    genetic:
+      population_size: 100
+      mutation_rate: 0.01
+      crossover_rate: 0.8
+      selection_method: "tournament"
+    
+    # Swarm intelligence
+    swarm:
+      algorithm: "pso"  # pso, aco, abc
+      particles: 50
+      inertia: 0.9
+      cognitive: 2.0
+      social: 2.0
+
+# Assembly Line Configuration
+assembly_line:
+  # Pipeline Management
+  pipeline:
+    enabled: true
+    parallel_execution: true
+    max_workers: 4
+    timeout: 3600  # seconds
+    
+    # Pipeline stages
+    stages:
+      data_ingestion: true
+      preprocessing: true
+      feature_engineering: true
+      model_training: true
+      evaluation: true
+      deployment: true
+  
+  # Module Registry
+  registry:
+    enabled: true
+    auto_discovery: true
+    versioning: true
+    
+    # Registry settings
+    settings:
+      cache_modules: true
+      validate_modules: true
+      dependency_resolution: true
+  
+  # Workflow Management
+  workflow:
+    enabled: true
+    scheduler: "celery"  # celery, airflow, prefect
+    
+    # Workflow settings
+    settings:
+      retry_attempts: 3
+      retry_delay: 60  # seconds
+      max_runtime: 7200  # seconds
+      notification: true
+
+# Security Configuration
+security:
+  # Authentication
+  authentication:
+    enabled: true
+    method: "jwt"  # jwt, oauth2, basic, api_key
+    
+    # JWT settings
+    jwt:
+      algorithm: "HS256"
+      expiration: 3600  # seconds
+      refresh_expiration: 86400  # seconds
+      issuer: "aibf"
+  
+  # Authorization
+  authorization:
+    enabled: true
+    model: "rbac"  # rbac, abac, acl
+    
+    # RBAC settings
+    rbac:
+      default_role: "user"
+      admin_role: "admin"
+      permissions_cache: true
+  
+  # Input Validation
+  validation:
+    enabled: true
+    strict_mode: true
+    
+    # Validation rules
+    rules:
+      max_input_length: 10000
+      allowed_file_types: [".txt", ".json", ".csv", ".pdf"]
+      max_file_size: 10485760  # 10MB
+  
+  # Encryption
+  encryption:
+    enabled: true
+    algorithm: "AES-256-GCM"
+    key_rotation: true
+    
+    # Encryption settings
+    settings:
+      key_length: 256
+      iv_length: 12
+      tag_length: 16
+  
+  # Audit Logging
+  audit:
+    enabled: true
+    log_level: "INFO"
+    
+    # Audit settings
+    settings:
+      log_requests: true
+      log_responses: false
+      log_errors: true
+      retention_days: 90
+
+# API Configuration
+api:
+  # Common API Settings
+  common:
+    host: "0.0.0.0"
+    cors_enabled: true
+    cors_origins: ["*"]
+    rate_limiting: true
+    
+    # Rate limiting
+    rate_limit:
+      requests_per_minute: 100
+      burst_size: 10
+      storage: "redis"  # memory, redis, database
+  
+  # REST API
+  rest:
+    enabled: true
+    port: 8000
+    workers: 4
+    
+    # REST settings
+    settings:
+      auto_reload: true
+      access_log: true
+      keep_alive: 2
+      max_requests: 1000
+  
+  # WebSocket API
+  websocket:
+    enabled: true
+    port: 8001
+    max_connections: 1000
+    
+    # WebSocket settings
+    settings:
+      heartbeat_interval: 30  # seconds
+      message_queue_size: 100
+      compression: true
+      per_message_deflate: true
+  
+  # gRPC API
+  grpc:
+    enabled: true
+    port: 8002
+    max_workers: 10
+    
+    # gRPC settings
+    settings:
+      reflection: true
+      health_check: true
+      compression: "gzip"
+      max_message_length: 4194304  # 4MB
+  
+  # GraphQL API
+  graphql:
+    enabled: true
+    port: 8003
+    
+    # GraphQL settings
+    settings:
+      playground: true
+      introspection: true
+      query_depth_limit: 10
+      query_complexity_limit: 1000
+
+# Monitoring Configuration
+monitoring:
+  # Performance Monitoring
+  performance:
+    enabled: true
+    metrics_interval: 60  # seconds
+    
+    # Alert thresholds
+    alert_thresholds:
+      cpu_usage: 80  # percentage
+      memory_usage: 85  # percentage
+      disk_usage: 90  # percentage
+      response_time: 1000  # milliseconds
+      error_rate: 5  # percentage
+  
+  # Health Monitoring
+  health:
+    enabled: true
+    check_interval: 30  # seconds
+    
+    # Health checks
+    checks:
+      database: true
+      redis: true
+      model_availability: true
+      disk_space: true
+      memory_usage: true
+  
+  # Analytics
+  analytics:
+    enabled: true
+    real_time: true
+    
+    # Analytics settings
+    settings:
+      data_retention: 30  # days
+      aggregation_interval: 300  # seconds
+      anomaly_detection: true
+      trend_analysis: true
+  
+  # Resource Monitoring
+  resource:
+    enabled: true
+    collection_interval: 60  # seconds
+    
+    # Resource settings
+    settings:
+      track_processes: true
+      track_network: true
+      track_gpu: true
+      optimization_recommendations: true
+
+# Database Configuration
+database:
+  # Primary database
+  primary:
+    type: "postgresql"  # postgresql, mysql, sqlite
+    host: "localhost"
+    port: 5432
+    name: "aibf"
+    user: "aibf_user"
+    password: "${DB_PASSWORD}"
+    
+    # Connection pool
+    pool:
+      min_size: 5
+      max_size: 20
+      timeout: 30
+  
+  # Cache database
+  cache:
+    type: "redis"
+    host: "localhost"
+    port: 6379
+    db: 0
+    password: "${REDIS_PASSWORD}"
+    
+    # Cache settings
+    settings:
+      default_ttl: 3600  # seconds
+      max_memory: "1gb"
+      eviction_policy: "allkeys-lru"
+  
+  # Vector database
+  vector:
+    type: "faiss"  # faiss, chroma, pinecone, weaviate
+    
+    # FAISS settings
+    faiss:
+      index_type: "IVF"
+      metric: "cosine"
+      nlist: 100
+      nprobe: 10
+
+# Logging Configuration
+logging:
+  version: 1
+  disable_existing_loggers: false
+  
+  formatters:
+    standard:
+      format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    detailed:
+      format: "%(asctime)s [%(levelname)s] %(name)s:%(lineno)d: %(message)s"
+    json:
+      format: '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "logger": "%(name)s", "message": "%(message)s"}'
+  
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: standard
+      stream: ext://sys.stdout
+    
+    file:
+      class: logging.handlers.RotatingFileHandler
+      level: DEBUG
+      formatter: detailed
+      filename: logs/aibf.log
+      maxBytes: 10485760  # 10MB
+      backupCount: 5
+    
+    error_file:
+      class: logging.handlers.RotatingFileHandler
+      level: ERROR
+      formatter: detailed
+      filename: logs/error.log
+      maxBytes: 10485760  # 10MB
+      backupCount: 5
+  
+  loggers:
+    aibf:
+      level: DEBUG
+      handlers: [console, file]
+      propagate: false
+    
+    aibf.error:
+      level: ERROR
+      handlers: [error_file]
+      propagate: false
+  
+  root:
+    level: INFO
+    handlers: [console]
+
+# Development Configuration
+development:
+  # Debug settings
+  debug:
+    enabled: true
+    profiling: true
+    memory_tracking: true
+    
+  # Hot reload
+  hot_reload:
+    enabled: true
+    watch_directories: ["src", "config"]
+    ignore_patterns: ["*.pyc", "__pycache__", ".git"]
+  
+  # Testing
+  testing:
+    auto_test: false
+    coverage_threshold: 80
+    test_data_path: "tests/data"
+
+# Production Configuration
+production:
+  # Performance optimizations
+  optimizations:
+    model_compilation: true
+    tensor_parallelism: true
+    gradient_checkpointing: false
+    mixed_precision: true
+  
+  # Scaling
+  scaling:
+    auto_scaling: true
+    min_replicas: 2
+    max_replicas: 10
+    target_cpu_utilization: 70
+  
+  # Backup
+  backup:
+    enabled: true
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    retention_days: 30
+    storage: "s3"  # s3, gcs, azure
+
+# External Services Configuration
+external_services:
+  # OpenAI
+  openai:
+    api_key: "${OPENAI_API_KEY}"
+    organization: "${OPENAI_ORG_ID}"
+    model: "gpt-3.5-turbo"
+  
+  # Hugging Face
+  huggingface:
+    token: "${HF_TOKEN}"
+    cache_dir: "./cache/huggingface"
+  
+  # AWS
+  aws:
+    access_key_id: "${AWS_ACCESS_KEY_ID}"
+    secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+    region: "us-east-1"
+  
+  # Google Cloud
+  gcp:
+    project_id: "${GCP_PROJECT_ID}"
+    credentials_path: "${GCP_CREDENTIALS_PATH}"
+  
+  # Azure
+  azure:
+    subscription_id: "${AZURE_SUBSCRIPTION_ID}"
+    tenant_id: "${AZURE_TENANT_ID}"
+    client_id: "${AZURE_CLIENT_ID}"
+    client_secret: "${AZURE_CLIENT_SECRET}"
+
+# Feature Flags
+feature_flags:
+  experimental_features: false
+  beta_features: true
+  new_ui: false
+  advanced_analytics: true
+  quantum_computing: false
+  neuromorphic_computing: false
+  federated_learning: true
+  edge_deployment: false
+  mobile_support: false
+  voice_interface: false
+  ar_vr_support: false
+  blockchain_integration: false
+  iot_integration: true
+  real_time_collaboration: true
+  advanced_security: true
+  multi_tenant: false
+  white_label: false
+  custom_branding: false
+  enterprise_features: false
+  compliance_tools: true
+  audit_trails: true
+  data_governance: true
+  privacy_controls: true
+  gdpr_compliance: true
+  hipaa_compliance: false
+  sox_compliance: false
+  iso_compliance: false
+  soc2_compliance: false
+
+# Environment-specific overrides
+environments:
+  development:
+    aibf:
+      debug: true
+      log_level: "DEBUG"
+    
+    api:
+      rest:
+        workers: 1
+      websocket:
+        max_connections: 100
+    
+    monitoring:
+      performance:
+        metrics_interval: 10
+  
+  staging:
+    aibf:
+      debug: false
+      log_level: "INFO"
+    
+    api:
+      rest:
+        workers: 2
+      websocket:
+        max_connections: 500
+  
+  production:
+    aibf:
+      debug: false
+      log_level: "WARNING"
+    
+    api:
+      rest:
+        workers: 8
+      websocket:
+        max_connections: 2000
+    
+    monitoring:
+      performance:
+        metrics_interval: 300
+    
+    security:
+      validation:
+        strict_mode: true
+      
+      audit:
+        log_responses: true
